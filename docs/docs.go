@@ -18,16 +18,7 @@ var doc = `{
     "info": {
         "description": "{{.Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -50,7 +41,7 @@ var SwaggerInfo = swaggerInfo{
 	Host:        "petstore.swagger.io",
 	BasePath:    "/v2",
 	Schemes:     []string{},
-	Title:       "Swagger1 Example API",
+	Title:       "API Demo",
 	Description: "This is a sample server Petstore server.",
 }
 
