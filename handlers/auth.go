@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/happyphper/gin-swagger-demo/response"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -77,6 +78,46 @@ func Register(ctx *gin.Context) {
 
 	tokenModel := response.TokenModel{
 		Token:        "110123123",
+		ExpiresIn: time.Now().Add(time.Hour * 24 * 15).Unix(),
+	}
+
+	ctx.JSON(http.StatusOK, tokenModel.ToResponse())
+}
+
+
+// Me
+// @Summary 我的
+// @Description 个人信息
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Security BearerTokenAuth
+// @Success 200 {object} response.Response{code=int,data=models.User} "desc"
+// @Router /me [get]
+func Me(ctx *gin.Context) {
+	// TODO 封装为中间件
+	auth := ctx.GetHeader("Authorization")
+	arr := strings.SplitN(auth, " ", 2)
+	if arr[0] != "Bearer" || arr[1] != "123" {
+		ctx.JSON(http.StatusOK, response.TokenExpiredRes())
+		return
+	}
+
+	var form LoginForm
+	if err := ctx.ShouldBindJSON(&form); err != nil {
+		ctx.JSON(http.StatusOK, response.ValidationRes(err.Error()))
+		return
+	}
+
+	if form.Username != "happyphper" || form.Password != "123123123" {
+		ctx.JSON(http.StatusOK, response.AuthErrorRes())
+		return
+	}
+
+	fmt.Println(form)
+
+	tokenModel := response.TokenModel{
+		Token:     "110123123",
 		ExpiresIn: time.Now().Add(time.Hour * 24 * 15).Unix(),
 	}
 

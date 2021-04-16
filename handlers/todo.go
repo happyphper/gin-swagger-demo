@@ -20,6 +20,7 @@ type TodoIndexQuery struct {
 // @Accept json
 // @Produce json
 // @Param page query int false "页码" default(1) minimum(1) maximum(100)
+// @Param ids query []string false "ID数组" collectionFormat(multi)
 // @Success 200 {object} response.Response{code=int,data=[]models.Todo} "desc"
 // @Router /todos [get]
 func TodoIndex(ctx *gin.Context) {

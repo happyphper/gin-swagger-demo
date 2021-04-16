@@ -8,6 +8,7 @@ const (
 	CaptchaError     = 40102 // 图形验证码错误
 	UsernameNotFound = 40103 // 账号不存在
 	UsernameExists   = 40104 // 账号已存在
+	TokenExpired     = 40110 // 身份信息失效
 	ValidationError  = 42200 // 参数错误
 )
 
@@ -41,6 +42,13 @@ func AuthErrorRes() *Response {
 	return &Response{
 		Code:    AuthError,
 		Message: "账号或密码不匹配",
+	}
+}
+
+func TokenExpiredRes() *Response {
+	return &Response{
+		Code:    TokenExpired,
+		Message: "身份信息失效",
 	}
 }
 

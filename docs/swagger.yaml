@@ -53,6 +53,29 @@ definitions:
         example: "2006-01-02 15:04:05"
         type: string
     type: object
+  models.User:
+    properties:
+      created_at:
+        example: "2006-01-02 15:04:05"
+        type: string
+      id:
+        example: 11012341234
+        type: integer
+      password:
+        type: string
+      status:
+        example: 1
+        type: integer
+      updated_at:
+        example: "2006-01-02 15:04:05"
+        type: string
+      username:
+        example: "11012341234"
+        type: string
+      wechat_openid:
+        example: asdqwez@qsdasdqwe
+        type: string
+    type: object
   response.Response:
     properties:
       code:
@@ -124,6 +147,30 @@ paths:
       summary: 登录
       tags:
       - Auth
+  /me:
+    get:
+      consumes:
+      - application/json
+      description: 个人信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+      security:
+      - BearerTokenAuth: []
+      summary: 我的
+      tags:
+      - Auth
   /register:
     post:
       consumes:
@@ -165,6 +212,13 @@ paths:
         minimum: 1
         name: page
         type: integer
+      - collectionFormat: multi
+        description: ID数组
+        in: query
+        items:
+          type: string
+        name: ids
+        type: array
       produces:
       - application/json
       responses:
@@ -293,4 +347,9 @@ paths:
       summary: 待办事项更新
       tags:
       - Todo
+securityDefinitions:
+  BearerTokenAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

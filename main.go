@@ -14,17 +14,25 @@ var swagHandler gin.HandlerFunc
 
 // @host 127.0.0.1:8080
 // @BasePath /api
+
+// @securityDefinitions.apikey BearerTokenAuth
+// @in header
+// @name Authorization
 func main() {
 	r := gin.New()
 
 	if swagHandler != nil {
-		r.GET("/swagger/*any", swagHandler)
+		authorized := r.Group("/", gin.BasicAuth(gin.Accounts{
+			"admin": "123123",
+		}))
+		authorized.GET("/swagger/*any", swagHandler)
 	}
 
 	apiR := r.Group("/api")
 	{
 		apiR.POST("login", handlers.Login)
 		apiR.POST("register", handlers.Register)
+		apiR.GET("me", handlers.Me)
 		apiR.GET("todos", handlers.TodoIndex)
 		apiR.GET("todos/:id", handlers.TodoShow)
 		apiR.POST("todos", handlers.TodoStore)

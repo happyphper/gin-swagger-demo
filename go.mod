@@ -10,4 +10,6 @@ require (
 	github.com/swaggo/swag v1.5.1
 	golang.org/x/sys v0.0.0-20210415045647-66c3f260301c // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
+	gorm.io/driver/mysql v1.0.5
+	gorm.io/gorm v1.21.7
 )
