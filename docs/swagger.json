@@ -1,12 +1,453 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server Petstore server.",
+        "description": "Test swagger api docs",
         "title": "API Demo",
         "contact": {},
         "version": "1.0"
     },
-    "host": "petstore.swagger.io",
-    "basePath": "/v2",
-    "paths": {}
+    "host": "127.0.0.1:8080",
+    "basePath": "/api",
+    "paths": {
+        "/login": {
+            "post": {
+                "description": "登录接口，适用于账号、密码登录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "description": "JSON",
+                        "name": "username",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.LoginForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/response.TokenModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "适用于新账号注册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "注册",
+                "parameters": [
+                    {
+                        "description": "JSON",
+                        "name": "username",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RegisterForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/response.TokenModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/todos": {
+            "get": {
+                "description": "用于待办事项的列表展示，支持分页、筛选等",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "待办事项列表",
+                "parameters": [
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Todo"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "用于添加待办事项",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "待办事项添加",
+                "parameters": [
+                    {
+                        "description": "Todo FormData",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.TodoForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/models.Todo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/todos/{id}": {
+            "get": {
+                "description": "用于待办事项的列表展示，支持分页、筛选等",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "待办事项详情",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Todo id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/models.Todo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "用于待办事项更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "待办事项更新",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Todo id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Todo FormData",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.TodoForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/models.Todo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "用于待办事项删除",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "待办事项删除",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Todo id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "desc",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handlers.LoginForm": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "description": "密码",
+                    "type": "string",
+                    "example": "123123123"
+                },
+                "username": {
+                    "description": "账号",
+                    "type": "string",
+                    "example": "happyphper"
+                }
+            }
+        },
+        "handlers.RegisterForm": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "description": "密码",
+                    "type": "string",
+                    "example": "123123123"
+                },
+                "username": {
+                    "description": "账号",
+                    "type": "string",
+                    "example": "18010021234"
+                }
+            }
+        },
+        "handlers.TodoForm": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Todo": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2006-01-02 15:04:05"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 11012341234
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "完成TodoList布局"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2006-01-02 15:04:05"
+                }
+            }
+        },
+        "response.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码\n20000:成功\n40100:账号或密码不匹配\n40101:短信验证码错误\n40102:图形验证码错误\n40103:账号不存在\n40104:账号已存在\n42200:参数错误",
+                    "type": "integer",
+                    "example": 20000
+                },
+                "data": {
+                    "description": "数据",
+                    "type": "object"
+                },
+                "message": {
+                    "description": "消息",
+                    "type": "string",
+                    "example": "ok"
+                },
+                "meta": {
+                    "description": "额外数据",
+                    "type": "object"
+                }
+            }
+        },
+        "response.TokenModel": {
+            "type": "object",
+            "properties": {
+                "expires_in": {
+                    "description": "过期时间，时间戳",
+                    "type": "integer",
+                    "example": 1618535532
+                },
+                "token": {
+                    "description": "JWT Bearer Token",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                }
+            }
+        }
+    }
 }
